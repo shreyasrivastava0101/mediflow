@@ -1,0 +1,45 @@
+# MEDIFLOW Project Walkthrough
+
+I have successfully completed the implementation of the MEDIFLOW platform, transforming it into a world-class, resume-worthy health-tech product.
+
+> [!TIP]
+> **Premium UI:** The application uses heavy glassmorphism, glowing micro-interactions, dark-mode styling, and smooth layout animations powered by Framer Motion, completely avoiding standard "admin dashboard" looks.
+
+## What Was Built
+
+### 1. The Core Infrastructure
+- Scaffolding the **React 18 + Vite** frontend environment with **Tailwind CSS v4**.
+- Generating a modular **Node.js + Express** API layered architecture (`controllers/`, `routes/`, `models/`).
+
+### 2. Frontend Experiences
+- **Landing Page (`/`)**: A highly animated hero section featuring floating glass cards, glowing backgrounds, and modern typography to provide an instant "wow" factor.
+- **Command Center Dashboard (`/dashboard`)**:
+  - Live animated bed occupancy chart using **Recharts**.
+  - A real-time **Emergency Queue Visualizer** sorted by severity (Critical -> Low).
+  - Number-counting widgets for total patients, beds occupied, and active doctors.
+  - Interactive **Doctor Status Cards** showing live patient loads.
+- **Login Portal (`/login`)**: A sleek, centered glowing container for the admin entry point.
+
+### 3. Backend Intelligence
+- **Smart Bed Allocation Engine (`patientController.js`)**: Assigns beds dynamically depending on severity (e.g. Critical -> ICU). If unavailable, falls back to a priority queue.
+- **Doctor Assignment Engine**: Intelligently assigns incoming patients to specialists based on their symptoms (e.g. Chest Pain -> Cardiologist) with built-in load balancing.
+- **Database Seeder**: An automated `GET /api/seed` route that clears and populates the DB with 100 realistic patients, 50 beds, and 30 active doctors to instantly populate the UI.
+
+## How to Run It Locally
+
+### Run Backend
+1. Start MongoDB locally (or add an Atlas connection string in `backend/.env`).
+2. Run these commands:
+```bash
+cd backend
+npm run dev
+```
+
+### Run Frontend
+```bash
+cd frontend
+npm run dev
+```
+
+## Deployment
+Since MEDIFLOW requires linking external platforms to your GitHub, follow the full deployment guide written in `README.md` at the root of the project to deploy your Frontend to **Vercel** and your Backend to **Render**.

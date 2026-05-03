@@ -1,0 +1,100 @@
+# MEDIFLOW: Premium Healthcare Workflow Platform
+
+This document outlines the architecture, design, and implementation plan for building MEDIFLOW, a world-class, highly interactive healthcare workflow platform.
+
+## User Review Required
+
+> [!IMPORTANT]
+> **Deployment Clarification:** You requested live deployment links for Vercel (Frontend) and Render (Backend). Since I do not have access to your Vercel or Render accounts, I cannot automatically generate the final live URLs. However, I will make the codebase 100% production-ready and provide exact, step-by-step instructions (and configuration files like `vercel.json` if needed) so that when you push this code to your GitHub repo, Vercel and Render will automatically deploy it. Is this acceptable, or would you prefer I guide you through using the Vercel/Render CLIs locally?
+
+> [!TIP]
+> **Database Configuration:** We need a MongoDB connection string. I will use a local MongoDB URI (`mongodb://127.0.0.1:27017/mediflow`) for development and provide a `.env.example` with instructions on how to use MongoDB Atlas for production. Does this work for you?
+
+## Open Questions
+
+1. **Routing Strategy:** For the frontend, do you prefer React Router for client-side navigation between the Landing Page, Dashboard, and other views?
+2. **UI Frameworks:** Aside from Tailwind CSS, Framer Motion, and Recharts, are you open to using `lucide-react` for premium scalable icons?
+
+## Proposed Architecture & Tech Stack
+
+### Frontend (`/frontend`)
+- **Framework:** React 18 initialized via Vite (faster and leaner than Create React App).
+- **Styling:** Tailwind CSS for utility-first styling, customized with a premium color palette (dark mode primary, deep gradients, glassmorphism utilities).
+- **Animations:** Framer Motion for micro-interactions, page transitions, and smooth layout changes.
+- **Charts:** Recharts for animated, responsive data visualization.
+- **Icons:** `lucide-react`.
+- **State Management:** React Context + Hooks (sufficient for this scale).
+
+### Backend (`/backend`)
+- **Framework:** Node.js with Express.js.
+- **Database:** MongoDB (using Mongoose ODM).
+- **Auth:** JSON Web Tokens (JWT) & bcrypt for password hashing.
+- **Architecture:** MVC (Models, Views/Routes, Controllers).
+
+## Proposed Changes
+
+---
+
+### Backend Components
+
+#### [MODIFY] backend/package.json
+- Add dependencies: `mongoose`, `jsonwebtoken`, `bcryptjs`, `express-validator`, `morgan` (for logging).
+- Add mock data generation script.
+
+#### [NEW] backend/server.js
+- Configure Express, CORS, JSON body parser, and error handling middleware.
+- Connect to MongoDB.
+- Register API routes.
+
+#### [NEW] backend/src/models/
+- `User.js` (Admin, Doctor, Receptionist).
+- `Patient.js` (Demographics, Symptoms, Severity, Assigned Bed/Doctor).
+- `Bed.js` (Type: ICU, Emergency, Observation, General, Status: Occupied, Available).
+- `Doctor.js` (Specialization, Availability, Current Load).
+
+#### [NEW] backend/src/controllers/
+- `authController.js` (Login, Register).
+- `patientController.js` (Admit patient, run Smart Bed Allocation & Doctor Assignment logic).
+- `analyticsController.js` (Fetch bed occupancy, daily admissions).
+- `mockDataController.js` (Seed 100 patients, 50 beds, 30 doctors).
+
+#### [NEW] backend/src/routes/
+- `authRoutes.js`, `patientRoutes.js`, `analyticsRoutes.js`, `seedRoutes.js`.
+
+---
+
+### Frontend Components
+
+#### [NEW] frontend/
+- Run `npx create-vite@latest . --template react` in the frontend folder.
+- Install `tailwindcss`, `postcss`, `autoprefixer`, `framer-motion`, `recharts`, `lucide-react`, `react-router-dom`.
+
+#### [NEW] frontend/tailwind.config.js & index.css
+- Define a custom premium theme: neon accents (emerald/cyan/purple), dark backgrounds (`#0a0a0a`, `#121212`), and utility classes for glassmorphism (`backdrop-blur-md`, `bg-white/5`).
+
+#### [NEW] frontend/src/components/
+- `HeroSection.jsx` (Landing page with glowing elements and 3D-like floating cards).
+- `StatsWidget.jsx` (Framer motion numbers increasing on load).
+- `BedOccupancyChart.jsx` (Recharts integration).
+- `DoctorCard.jsx` (Interactive hover effects).
+- `QueueVisualizer.jsx` (Animated list of waiting patients).
+
+#### [NEW] frontend/src/pages/
+- `LandingPage.jsx` (The "wow" factor entry point).
+- `Dashboard.jsx` (Main authenticated view with widgets).
+- `Login.jsx` (Sleek authentication form).
+
+---
+
+## Verification Plan
+
+### Automated/Dev Tests
+- Run `npm run dev` in both frontend and backend.
+- Verify backend API connects to DB and seeds mock data.
+- Verify frontend renders Landing Page and Dashboard without errors.
+- Test responsive design across simulated mobile/tablet viewports.
+
+### Manual Verification
+- **Aesthetics Check:** Ensure the UI does NOT look like a basic template. Verify glassmorphism, gradient lighting, and Framer Motion animations feel premium and buttery smooth.
+- **Workflow Check:** Test the patient admission flow to see the Smart Bed Allocation and Doctor Assignment algorithms in action.
+- **Deployment Readiness:** Verify build scripts work (`npm run build`) and prepare the README with exact commands to push to Vercel/Render.
